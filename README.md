@@ -32,7 +32,7 @@ Note: what it doesn't cover is the time on a given day, it will only work for gi
 1. clone the project
 2. run migrate command
 3. start your xamppp/wampp server
-4. test the api's using:
+4. test the api's using the endpoints:
 
     • http://127.0.0.1:8000/api/find-booking-slots - GET
     • http://127.0.0.1:8000/api/find-booking-price - GET
