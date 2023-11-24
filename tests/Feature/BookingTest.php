@@ -24,11 +24,11 @@ class BookingTest extends TestCase
 
         // Create a booking for a date range
         $response = $this->call('POST','/api/create-booking', [
-            'from' => '2023-11-23',
-            'to' => '2023-11-24'
+            'from' => '2023-11-30',
+            'to' => '2023-12-01'
         ]);
         $response->assertJson([
-            'message'=> 'Booking slot: 1 confirmed between 23/11/2023 and 24/11/2023'], false);
+            'message'=> 'Booking slot: 1 confirmed between 30/11/2023 and 01/12/2023'], false);
         $this->assertEquals(201, $response->status());
 
         // Test pricing for a past date
@@ -50,51 +50,56 @@ class BookingTest extends TestCase
 
          // Test find available Booking slots for a date range
          $response = $this->call('GET', '/api/find-booking-slots', [
-            'from' => '2023-11-23',
-            'to' => '2023-11-27'
+            'from' => '2023-11-29',
+            'to' => '2023-12-04'
         ]);
         $response->assertJson([
                 'message'=> [
-                [
-                    'Date'=> '2023-11-23',
-                    'Slots_Available'=> 10
-                ],
-                [
-                    'Date'=> '2023-11-24',
-                    'Slots_Available'=> 9
-                ],
-                [
-                    'Date'=> '2023-11-25',
-                    'Slots_Available'=> 10
-                ],
-                [
-                    'Date'=> '2023-11-26',
-                    'Slots_Available'=> 10
-                ],
-                [
-                    'Date'=> '2023-11-27',
-                    'Slots_Available'=> 10
+                    [
+                        'Date'=> '2023-11-29',
+                        'Slots_Available'=> 10
+                    ],
+                    [
+                        'Date'=> '2023-11-30',
+                        'Slots_Available'=> 10
+                    ],
+                    [
+                        'Date'=> '2023-12-01',
+                        'Slots_Available'=> 9
+                    ],
+                    [
+                        'Date'=> '2023-12-02',
+                        'Slots_Available'=> 10
+                    ],
+                    [
+                        'Date'=> '2023-12-03',
+                        'Slots_Available'=> 10
+                    ],
+                    [
+                        'Date'=> '2023-12-04',
+                        'Slots_Available'=> 10
+                    ]
                 ]
-                ]], false);
+            ], false);
         $this->assertEquals(200, $response->status());
 
         // Test for a different date range - find available Booking slots for a date range
         $response = $this->call('GET', '/api/find-booking-slots', [
-            'from' => '2023-12-04',
-            'to' => '2023-12-06'
+            'from' => '2023-12-14',
+            'to' => '2023-12-16'
         ]);
         $response->assertJson([
                 'message'=> [
                 [
-                    'Date'=> '2023-12-04',
+                    'Date'=> '2023-12-14',
                     'Slots_Available'=> 10
                 ],
                 [
-                    'Date'=> '2023-12-05',
+                    'Date'=> '2023-12-15',
                     'Slots_Available'=> 10
                 ],
                 [
-                    'Date'=> '2023-12-06',
+                    'Date'=> '2023-12-16',
                     'Slots_Available'=> 10
                 ]
                 ]], false);
@@ -104,24 +109,24 @@ class BookingTest extends TestCase
         $booking = Booking::create([
             'bookingSlot' => 1,
             'customerId'=>Str::uuid()->toString(),
-            'bookingFromDate' => '2023-11-29',
-            'bookingEndDate' => '2023-11-30',
+            'bookingFromDate' => '2023-12-07',
+            'bookingEndDate' => '2023-12-08',
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s')
         ]);
         $response = $this->call('GET', '/api/find-booking-slots', [
-            'from' => '2023-11-29',
-            'to' => '2023-11-30'
+            'from' => '2023-12-07',
+            'to' => '2023-12-08'
         ]);
         $response->assertJson([
             'message'=> [
                 [
-                    "Date"=> "2023-11-29",
-                    "Slots_Available"=> 10
+                    'Date'=> '2023-12-07',
+                    'Slots_Available'=> 10
                 ],
                 [
-                    "Date"=> "2023-11-30",
-                    "Slots_Available"=> 9
+                    'Date'=> '2023-12-08',
+                    'Slots_Available'=> 9
                 ]
             ]], false);
         $this->assertEquals(200, $response->status());
@@ -145,8 +150,8 @@ class BookingTest extends TestCase
 
         // Test pricing for a date range
         $response = $this->call('GET', '/api/find-booking-price', [
-            'from' => '2023-11-23',
-            'to' => '2023-11-24'
+            'from' => '2023-11-30',
+            'to' => '2023-12-01'
         ]);
         $response->assertJson([
             'price'=> '£26.49',
@@ -191,8 +196,8 @@ class BookingTest extends TestCase
         $booking = Booking::create([
             'bookingSlot' => 1,
             'customerId'=>Str::uuid()->toString(),
-            'bookingFromDate' => '2023-11-29',
-            'bookingEndDate' => '2023-11-30',
+            'bookingFromDate' => '2023-12-09',
+            'bookingEndDate' => '2023-12-10',
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s')
         ]);
@@ -227,8 +232,8 @@ class BookingTest extends TestCase
         $booking = Booking::create([
             'bookingSlot' => 1,
             'customerId'=>Str::uuid()->toString(),
-            'bookingFromDate' => '2023-11-24',
-            'bookingEndDate' => '2023-11-26',
+            'bookingFromDate' => '2023-11-29',
+            'bookingEndDate' => '2023-11-30',
             'created_at'=>date('Y-m-d H:i:s'),
             'updated_at'=>date('Y-m-d H:i:s')
         ]);
@@ -236,8 +241,8 @@ class BookingTest extends TestCase
         // Update a booking for a date range
         $response = $this->call('POST','/api/update-booking', [
             'customerId' => $booking->customerId,
-            'from' => '2023-11-25',
-            'to' => '2023-11-28'
+            'from' => '2023-12-02',
+            'to' => '2023-12-03'
         ]);
         $response->assertJson([
             'message'=> 'Booking Updated Successfully!'], false);
